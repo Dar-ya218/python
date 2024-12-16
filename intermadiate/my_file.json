@@ -1,0 +1,11 @@
+{
+    "name": "Dasha",
+    "surname": "Boch",
+    "age": 30,
+    "languages": [
+      "Python",
+      "Swift",
+      "Kotlin"
+    ],
+    "website": "https://boch.dev"
+  }
