@@ -54,7 +54,22 @@ async def user(user: User):
         users_list.append(user)
         return user
     
+@app.put("/user/")
+async def user(user: User):
 
+        found =False
+
+        for index, saved_user in enumerate(users_list):
+            if saved_user.id == user.id:
+                users_list[index] = user
+                return user
+        if not found:
+            return {"error": "El usuario no se actualizado"}
+        else:
+            return user
+
+
+             
 def search_user(id: int):
     user = filter(lambda user: user.id == id, users_list)
     try:
