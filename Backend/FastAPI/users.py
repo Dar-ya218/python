@@ -44,7 +44,7 @@ async def user(id: int):
 async def user(id: int):
     return search_user(id)
 
-@app.post("/user/")
+@app.post("/user/", status_code=201)
 async def user(user: User):
     print(user)
     print(user.id)
