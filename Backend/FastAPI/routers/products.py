@@ -4,4 +4,4 @@ router = APIRouter()
 
 @router.get("/products")
 async def get_products():
-    return [{"name": "Product 1"}, {"name": "Product 2"}]
+    return ["Product 1", "Product 2", "Product 3", "Product 4"]
