@@ -78,8 +78,8 @@ async def user(id: int):
             del users_list[index]
             found = True
 
-        if not found:
-            return {"error": "El usuario no se ha eliminado"}   
+    if not found:
+        return {"error": "El usuario no se ha eliminado"}   
 
 def search_user(id: int):
     user = filter(lambda user: user.id == id, users_list)
