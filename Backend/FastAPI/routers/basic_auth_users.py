@@ -21,14 +21,14 @@ users_db = {
         "full_name": "Dasha Var",
         "email": "dash@var.com",
         "disabled": False,
-        "pasword": "123456"
+        "password": "123456"
         },
     "katyalin": {
         "username": "katyalin",
         "full_name": "Katya Lin",
         "email": "kat@lin.com",
         "disabled": True,
-        "pasword": "123457"
+        "password": "123457"
         },
 
 }
