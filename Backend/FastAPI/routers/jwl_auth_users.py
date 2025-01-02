@@ -3,9 +3,10 @@ from pydantic import BaseModel
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import jwt
 from passlib.context import CryptContext
+from datetime import datetime, timedelta
 
 ALGORITHM = "HS256"
-ACSSES_TOKEN_EXPIRE_MINUTES = 1
+ACSSES_TOKEN_DURATION = 1
 
 app = FastAPI()
 
@@ -57,5 +58,8 @@ async def login(form: OAuth2PasswordRequestForm = Depends()):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST, 
             detail="Contraseña no es correcta")
+
+    access_token = {"sub":user.username, 
+                    "exp":datetime.utcnow() + timedelta(minutes=ACSSES_TOKEN_DURATION)}
     
-    return {"access_token": user.username, "token_type": "bearer"}
+    return {"access_token": access_token, "token_type": "bearer"}
