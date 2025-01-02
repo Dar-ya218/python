@@ -16,7 +16,7 @@ class UserInDB(User):
     password: str
 
 users_db = {
-    "dashboch": {
+    "dashvar": {
         "username": "dashvar",
         "full_name": "Dasha Var",
         "email": "dash@var.com",
