@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends, HTTPException,status
+from fastapi import FastAPI, Depends, HTTPException, status
 from pydantic import BaseModel
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
@@ -30,7 +30,6 @@ users_db = {
         "disabled": True,
         "password": "123457"
         },
-
 }
 
 def search_user(username: str):
@@ -38,13 +37,12 @@ def search_user(username: str):
         return UserInDB(**users_db[username])
     return None
     
-    
 async def current_user(token: str = Depends(oauth2)):
     user = search_user(token)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, 
-            detail="Credenciales de auteticación no válidas",
+            detail="Credenciales de autenticación no válidas",
             headers={"WWW-Authenticate": "Bearer"},)
     return user
     
