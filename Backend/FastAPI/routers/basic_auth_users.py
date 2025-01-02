@@ -17,7 +17,7 @@ class UserInDB(User):
 
 users_db = {
     "dashboch": {
-        "username": "dashboch",
+        "username": "dashvar",
         "full_name": "Dasha Var",
         "email": "dash@var.com",
         "disabled": False,
@@ -35,7 +35,8 @@ users_db = {
 
 def search_user(username: str):
     if username in users_db:
-        return UserInDB(users_db[username])
+        return UserInDB(**users_db[username])
+    return None
     
     
 async def current_user(token: str = Depends(oauth2)):
@@ -49,13 +50,13 @@ async def current_user(token: str = Depends(oauth2)):
     
 @app.post("/login")
 async def login(form: OAuth2PasswordRequestForm = Depends()):
-    user_db = users_db(form.username)
+    user_db = users_db.get(form.username)
     if not user_db:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST, detail="Usuario no es correcto")
     
     user = search_user(form.username)
-    if form.password != user.password:
+    if not form.password == user.password:
         raise HTTPException(
             status_code=400, detail="Contraseña no es correcta")
     
