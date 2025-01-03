@@ -45,7 +45,7 @@ def search_user_db(username: str):
         return UserInDB(**users_db[username])
     return None
 
-app.post("/login")
+@app.post("/login")
 async def login(form: OAuth2PasswordRequestForm = Depends()):
     user_db = users_db.get(form.username)
     if not user_db:
