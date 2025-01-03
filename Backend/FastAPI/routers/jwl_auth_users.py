@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import jwt, JWTError
@@ -9,7 +9,7 @@ ALGORITHM = "HS256"
 ACSSES_TOKEN_DURATION = 1
 SECRET = "bce92d49cfcf02fa6fdf836d91c00c01702894340bbca263e89f835b2accea5e"
 
-app = FastAPI()
+router = APIRouter()
 
 oauth2 = OAuth2PasswordBearer(tokenUrl="login")
 
@@ -77,25 +77,28 @@ async def current_user(user: User = Depends(auth_user)):
     
     return user
 
-@app.post("/login")
+@router.post("/login")
 async def login(form: OAuth2PasswordRequestForm = Depends()):
     user_db = users_db.get(form.username)
     if not user_db:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail="Usuario no es correcto")
+            status_code=status.HTTP_400_BAD_REQUEST, 
+            detail="Usuario no es correcto"
+            )
     
     user = search_user_db(form.username)
 
     if not crypt.verify(form.password, user.password):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST, 
-            detail="Contraseña no es correcta")
+            detail="Contraseña no es correcta"
+            )
 
     access_token = {"sub":user.username, 
                     "exp":datetime.utcnow() + timedelta(minutes=ACSSES_TOKEN_DURATION)}
     
     return {"access_token": jwt.encode(access_token, SECRET, algorithm=ALGORITHM), "token_type": "bearer"}
 
-@app.get("/users/me")
+@router.get("/users/me")
 async def me(user: User = Depends(current_user)):
     return user
